@@ -62,6 +62,13 @@ class Suratmasuk_model extends CI_Model {
     }
     public function posting($data)
     {   
+        $tambah="";
+        if(isset($data['aksi'])){
+            foreach ($data['aksi'] as $a) {
+                $tambah.="<br>".$a;
+            }
+        }
+
         $sqlv="SELECT *
           FROM t_trn_sm
           WHERE tahun ='".$data['vtahun']."' AND
@@ -92,10 +99,18 @@ class Suratmasuk_model extends CI_Model {
                   '".$data['postingsm']."', '".$x->no_agendatu."',
                   '".$x->tgl_agendatu."','".$x->no_surat."','".$x->tgl_surat."',
                   '".$x->perihal."', '".$x->instansi_asal."','".$x->ditujukan."',
-                  '".$x->diteruskan."','".$x->disposisi."','".$x->batas_selesai_disp."',
+                  '".$x->diteruskan."','".$x->disposisi.$tambah."','".$x->batas_selesai_disp."',
                   '".$x->keterangan."','".$x->file_dokumen."','".$x->kd_status_sm."',NOW(),'02','".$x->no_terkait."', '".$this->session->userdata('UserName')."' )";
 
             if($this->db->query($sql)){
+                $sqlUpdate = "UPDATE t_trn_sm
+                        SET kd_status_sm='02'
+                        WHERE tahun ='".$data['vtahun']."' AND
+                        kd_jenis_sm ='".$data['vjenissm']."' AND
+                        no_agenda ='".$data['vagenda']."' AND
+                        no_surat ='".$data['vsurat']."'";
+                // exit($sqlUpdate);
+                $this->db->query($sqlUpdate);
                 return "success";
             }
             else{

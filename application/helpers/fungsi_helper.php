@@ -54,20 +54,20 @@ function listall($table, $cond=""){
     
     return $query->result();
 }
-function getKodeTipe($kode){
+function getStatusSM($kode){
     $CI =& get_instance();
     $CI->load->database();
 
-    $sql= "SELECT * FROM tbl_master_barang_tipe WHERE kode_tipe='".$kode."' AND status=1";
+    $sql= "SELECT * FROM t_par_status_sm WHERE kd_status_sm='".$kode."'";
 
     #echo $sql1;
     $q = $CI->db->query($sql);
     foreach ($q->result() as $r)
     {
-        $kd=$r->kode_user;
+        $nama=$r->uraian_status_sm;
     }
     
-    return $kd;
+    return $nama;
 }
 function getKodeDiv($kode){
     $CI =& get_instance();

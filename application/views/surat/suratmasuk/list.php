@@ -82,6 +82,7 @@ else
                 <th>Asal&nbsp;Surat</th>
                 <th>Perihal</th>
                 <th>Kepada</th>
+                <th>Status</th>
                 <th>Disposisi</th>
                 <th>Selama</th>
                 <th>Detail</th>
@@ -109,6 +110,7 @@ else
                     <td><?php echo $v->instansi_asal ?></td>
                     <td><?php echo $v->perihal ?></td>
                     <td><?php echo $v->ditujukan ?></td>
+                    <td><?php echo getStatusSM($v->kd_status_sm) ?></td>
                     <td><?php echo $v->disposisi ?></td>
                     <td><?php echo $v->batas_selesai_disp ?></td>
                     <td class="td-actions">

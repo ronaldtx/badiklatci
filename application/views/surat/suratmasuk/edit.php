@@ -224,6 +224,51 @@ $this->load->view('header');
         </select>
     </div>
 </div>
+<div class="control-group">
+    <label class="control-label" for="aksism">Aksi Surat Masuk</label>
+    <div class="controls">
+    <label>
+        <input name="aksi[]" type="checkbox" value="Untuk diketahui sebagai informasi" />
+        <span class="lbl">Untuk diketahui sebagai informasi</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Untuk diselesaikan" />
+        <span class="lbl">Untuk diselesaikan</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Tanggapan dan saran" />
+        <span class="lbl">Tanggapan dan saran</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Dibahas bersama dengan Kabadiklat" />
+        <span class="lbl">Dibahas bersama dengan Kabadiklat</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Dibahas dalam rapat pimpinan" />
+        <span class="lbl">Dibahas dalam rapat pimpinan</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Untuk dijadwalkan" />
+        <span class="lbl">Untuk dijadwalkan</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Siapkan jawaban" />
+        <span class="lbl">Siapkan jawaban</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Supaya menghadap" />
+        <span class="lbl">Supaya menghadap</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Buat resume" />
+        <span class="lbl">Buat resume</span>
+    </label>
+    <label>
+        <input name="aksi[]" type="checkbox" value="Simpan(File)" />
+        <span class="lbl">Simpan(File)</span>
+    </label>
+    </div>
+</div>
 </form>
 <div class="row-fluid">
     <div class="table-header">
