@@ -168,7 +168,11 @@ class Suratmasuk extends CI_Controller {
             else
                 $cond = "where kd_jenis_sm IN ('40', '50')";
 
-            $condx = "WHERE kd_unitorg LIKE '1%0' OR kd_unitorg like '".$this->session->userdata('UnitOrg')."%'";
+            if(strlen($this->session->userdata('UnitOrg')==6))
+                $condx = "WHERE kd_unitorg LIKE '1%0' OR kd_unitorg like '".$this->session->userdata('UnitOrg')."%'";
+            else
+                $condx = "WHERE CHAR_LENGTH(kd_unitorg) > 4 AND kd_unitorg like '".$this->session->userdata('UnitOrg')."%'";
+
             $data['surat'] = $this->suratmasuk_model->getonedata($v);
             $data['listjenis'] = listall('t_par_jenis_sm', $cond);
             $data['listsifat'] = listall('t_par_sifat_sm');
