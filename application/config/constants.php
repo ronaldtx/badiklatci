@@ -62,7 +62,7 @@ define('HOSTEMAIL', 'ssl://smtp.googlemail.com');
 define('PORTEMAIL', '465');
 define('USEREMAIL', 'email@email.com');
 define('PASSEMAIL', 'password');
-/*SETTING EMAIL END*/
+/* SETTING EMAIL END */
 
 
 /* End of file constants.php */
