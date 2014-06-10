@@ -11,7 +11,7 @@ $this->load->view('header');
 	</div>
 
 			<div class="span12">
-				<h1>Pembuatan Akun Baru</h1>
+				<h1>Pembuatan Akun Baru  </h1>
 				
 				<br />				
 				<form class="form-horizontal">
