@@ -23,6 +23,7 @@ $this->load->view('header');
                     }
                  ?>
             </select>
+            <input type="hidden" value="<?php echo $surat->id ?>" id="idsm" name="idsm">
             <input type="hidden" value="<?php echo $surat->kd_jenis_sm ?>" id="vjenissm" name="vjenissm">
             <input type="hidden" value="<?php echo $surat->tahun ?>" id="vtahun" name="vtahun">
             <input type="hidden" value="<?php echo $surat->kd_unitorg ?>" id="vunit" name="vunit">
@@ -227,46 +228,20 @@ $this->load->view('header');
 <div class="control-group">
     <label class="control-label" for="aksism">Aksi Surat Masuk</label>
     <div class="controls">
+    <?php 
+    foreach ($listaksi as $d) {
+        $chked = "";
+        foreach ($listdetail as $det) {
+            if($d->kd_aksi == $det->kd_aksi)
+                $chked = 'checked="true" ';
+        }
+    ?>
     <label>
-        <input name="aksi[]" type="checkbox" value="Untuk diketahui sebagai informasi" />
-        <span class="lbl">Untuk diketahui sebagai informasi</span>
+        <input name="aksi[]" type="checkbox" value="<?php echo $d->kd_aksi; ?>" <?php echo $chked; ?>/>
+        <span class="lbl"><?php echo $d->nama_aksi ?></span>
     </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Untuk diselesaikan" />
-        <span class="lbl">Untuk diselesaikan</span>
-    </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Tanggapan dan saran" />
-        <span class="lbl">Tanggapan dan saran</span>
-    </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Dibahas bersama dengan Kabadiklat" />
-        <span class="lbl">Dibahas bersama dengan Kabadiklat</span>
-    </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Dibahas dalam rapat pimpinan" />
-        <span class="lbl">Dibahas dalam rapat pimpinan</span>
-    </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Untuk dijadwalkan" />
-        <span class="lbl">Untuk dijadwalkan</span>
-    </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Siapkan jawaban" />
-        <span class="lbl">Siapkan jawaban</span>
-    </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Supaya menghadap" />
-        <span class="lbl">Supaya menghadap</span>
-    </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Buat resume" />
-        <span class="lbl">Buat resume</span>
-    </label>
-    <label>
-        <input name="aksi[]" type="checkbox" value="Simpan(File)" />
-        <span class="lbl">Simpan(File)</span>
-    </label>
+    <?php
+    } ?>
     </div>
 </div>
 </form>
@@ -287,17 +262,12 @@ $this->load->view('header');
                 <th>Disposisi</th>
                 <th>Selama</th>
                 <th>Unitorg</th>
+                <th></th>
             </tr>
         </thead>
 
         <tbody>
-            <?php foreach ($listsurat as $v) { 
-                $link = "?thn=".$v->tahun;
-                $link .= "&jenis=".$v->kd_jenis_sm;
-                $link .= "&agenda=".$v->no_agenda;
-                $link .= "&unit=".$v->kd_unitorg;
-                $link .= "&surat=".$v->no_surat;
-            ?>
+            <?php foreach ($listsurat as $v) { ?>
                 <tr>
                     <td><?php echo $v->no_agenda ?></td>
                     <td><?php echo $v->tgl_agenda ?></td>
@@ -309,7 +279,14 @@ $this->load->view('header');
                     <td><?php echo $v->disposisi ?></td>
                     <td><?php echo $v->batas_selesai_disp ?></td>
                     <td><?php echo $v->uraian_unit ?></td>
-
+                    <td class="td-actions">
+                        <div class="hidden-phone visible-desktop action-buttons">
+                            
+                            <a class="green" href="#" onClick="delConfirm(<?php echo $v->id ?>);">
+                                <i class="icon-trash bigger-130"></i>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             <?php } ?>
         </tbody>

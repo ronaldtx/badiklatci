@@ -91,11 +91,7 @@ else
 
         <tbody>
             <?php foreach ($listsurat as $v) { 
-                $link = "?thn=".$v->tahun;
-                $link .= "&jenis=".$v->kd_jenis_sm;
-                $link .= "&agenda=".$v->no_agenda;
-                $link .= "&unit=".$v->kd_unitorg;
-                $link .= "&surat=".$v->no_surat;
+                $link = "?id=".$v->id;
                 if(date("U", strtotime($v->tgl_agenda. " +".$v->batas_selesai_disp." days")) < date("U"))
                     $class = ' class="merah"';
                 else
