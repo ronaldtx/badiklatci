@@ -66,7 +66,7 @@ define('BASEURL', 'http://localhost/badiklatci/');
 define('HOSTDB','localhost');
 define('USERDB','root');
 define('PASSDB','rahasia');
-define('NAMEDB','badiklat');
+define('NAMEDB','tpdk');
 /*SETTING DB END*/
 
 /*SETTING EMAIL START*/
