@@ -43,15 +43,15 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('TITLEAPP', 'BADIKLAT');
 define('BREADCRUMBDEF', '');
 define('FILEFOLDER', 'folderupload');
-define('UPLOADPATH', '/home/ronald/public_html/badiklatci/'.FILEFOLDER.'/');
+define('UPLOADPATH', 'D:\\xampp\\htdocs\\badiklatci\\folderupload\\');
 define('LIMITPAGING', 20);
-define('BASEURL', 'http://localhost/badiklatci/');
+define('BASEURL', 'http://localhost:8080/badiklatci/');
 
 /*SETTING DB START*/
 define('HOSTDB','localhost');
 define('USERDB','root');
-define('PASSDB','rahasia');
-define('NAMEDB','tpdk');
+define('PASSDB','gakpake');
+define('NAMEDB','badiklat');
 /*SETTING DB END*/
 
 /*SETTING EMAIL START*/
