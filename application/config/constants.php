@@ -67,4 +67,3 @@ define('PASSEMAIL', 'password');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
-

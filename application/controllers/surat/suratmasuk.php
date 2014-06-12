@@ -157,27 +157,28 @@ class Suratmasuk extends CI_Controller {
             else{
                 $data['salah'] = false;
             }
-            $v['tahun'] = $_GET['thn'];
-            $v['agenda'] = $_GET['agenda'];
-            $v['surat'] = $_GET['surat'];
-            $v['jenis'] = $_GET['jenis'];
-            $v['unit'] = $_GET['unit'];
+            $v['id'] = $_GET['id'];
 
             if ($this->session->userdata('UnitOrg') == "0000")
                 $cond = "where kd_jenis_sm NOT IN ('40', '50')";
             else
                 $cond = "where kd_jenis_sm IN ('40', '50')";
-
-            if(strlen($this->session->userdata('UnitOrg')==6))
-                $condx = "WHERE kd_unitorg LIKE '1%0' OR kd_unitorg like '".$this->session->userdata('UnitOrg')."%'";
+            if(strlen(trim($this->session->userdata('UnitOrg')))==4)
+                $condx = "WHERE (kd_unitorg LIKE '1%0' OR kd_unitorg like '".$this->session->userdata('UnitOrg')."%')";
             else
                 $condx = "WHERE CHAR_LENGTH(kd_unitorg) > 4 AND kd_unitorg like '".$this->session->userdata('UnitOrg')."%'";
+            $condx .= " AND kd_unitorg NOT IN (SELECT kd_unitorg FROM t_trn_sm WHERE parent =".$v['id'].") ";
 
+            $order = "ORDER BY kd_aksi ASC";
+
+            $condd = "WHERE idsm =".$v['id'];
             $data['surat'] = $this->suratmasuk_model->getonedata($v);
             $data['listjenis'] = listall('t_par_jenis_sm', $cond);
             $data['listsifat'] = listall('t_par_sifat_sm');
             $data['liststatus'] = listall('t_par_status_sm');
             $data['listposting'] = listall('t_par_unitorg', $condx);
+            $data['listdetail'] = listall('t_trn_sm_detail', $condd);
+            $data['listaksi'] = listall('t_par_aksi', $order);
             $data['listsurat'] = $this->suratmasuk_model->getdataposting($v);
             $data['breadcrumb'] = '<span class="divider">
                     <i class="icon-angle-right arrow-icon"></i>
@@ -197,6 +198,13 @@ class Suratmasuk extends CI_Controller {
                       $(this).prev().focus();
                     });
                 })
+                function delConfirm(a){
+                    var txt;
+                    var r = confirm("Hapus Data?");
+                    if (r == true) {
+                        window.location  = "'.base_url().'surat/suratmasuk/hapusposting?parent='.$v['id'].'&id="+a;
+                    }
+                }
                 </script>';
             
             if(!empty($data['surat'])){
@@ -221,12 +229,20 @@ class Suratmasuk extends CI_Controller {
         }
 
     }
+    
+    public function hapusposting(){
+        $link = "?id=".$_GET['parent'];
+        // exit;
+        if($this->suratmasuk_model->hapusposting($_GET['id'])=='success'){
+            redirect(base_url()."surat/suratmasuk/edit".$link, 'location');
+        }
+        else{
+            redirect(base_url()."surat/suratmasuk/edit".$link."&a=w", 'location');
+        }
+
+    }
     public function saveedit(){
-        $link = "?thn=".$_POST['vtahun'];
-        $link .= "&jenis=".$_POST['vjenissm'];
-        $link .= "&agenda=".$_POST['vagenda'];
-        $link .= "&unit=".$_POST['vunit'];
-        $link .= "&surat=".$_POST['vsurat'];
+        $link = "?id=".$_POST['idsm'];
 
         if($this->suratmasuk_model->edit($_POST)=='success'){
             redirect(base_url()."surat/suratmasuk", 'location');
@@ -237,11 +253,8 @@ class Suratmasuk extends CI_Controller {
 
     }
     public function saveposting(){
-        $link = "?thn=".$_POST['vtahun'];
-        $link .= "&jenis=".$_POST['vjenissm'];
-        $link .= "&agenda=".$_POST['vagenda'];
-        $link .= "&unit=".$_POST['vunit'];
-        $link .= "&surat=".$_POST['vsurat'];
+        $link = "?id=".$_POST['idsm'];
+
         $result = $this->suratmasuk_model->posting($_POST);
         switch ($result) {
             case 'success':

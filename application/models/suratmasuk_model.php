@@ -41,11 +41,12 @@ class Suratmasuk_model extends CI_Model {
                 // redirect(base_url()."user/create");
             }
         }
-        $sql ="insert into t_trn_sm (tahun, kd_jenis_sm, lampiran, kd_sifat_sm, no_agenda,tgl_agenda,kd_unitorg, 
+        $id = maxSerial('t_trn_sm', 'id');
+        $sql ="insert into t_trn_sm (id, tahun, kd_jenis_sm, lampiran, kd_sifat_sm, no_agenda,tgl_agenda,kd_unitorg, 
               no_agendatu,tgl_agendatu,no_surat,tgl_surat,perihal,
         instansi_asal,ditujukan,diteruskan,disposisi,batas_selesai_disp, 
             keterangan,file_dokumen,kd_status_sm,tgl_posting,kd_sumber,no_terkait, user_posting ) 
-              VALUES ('".date("Y")."','".$data['jenissm']."', '".$data['lampiran']."', '".$data['sifatsm']."','".$data['agenda_left'].trim($data['agenda_right'])."',
+              VALUES (".$id.", '".date("Y")."','".$data['jenissm']."', '".$data['lampiran']."', '".$data['sifatsm']."','".$data['agenda_left'].trim($data['agenda_right'])."',
               '".mysqltgl($data['tglagenda'])."','".$this->session->userdata('UnitOrg')."', 
               '".$data['agenda_left'].trim($data['agenda_right'])."',
               '".mysqltgl($data['tglagenda'])."','".$data['nosurat']."','".mysqltgl($data['tglsurat'])."',
@@ -62,44 +63,31 @@ class Suratmasuk_model extends CI_Model {
     }
     public function posting($data)
     {   
-        $tambah="";
-        if(isset($data['aksi'])){
-            foreach ($data['aksi'] as $a) {
-                $tambah.="<br>".$a;
-            }
-        }
-
         $sqlv="SELECT *
           FROM t_trn_sm
-          WHERE tahun ='".$data['vtahun']."' AND
-                kd_jenis_sm ='".$data['vjenissm']."' AND
-                no_agenda ='".$data['vagenda']."' AND
-                no_surat ='".$data['vsurat']."' AND
+          WHERE parent =".$data['idsm'] ." AND
                 kd_unitorg ='".$data['postingsm']."'";
         $query = $this->db->query($sqlv);
 
         if($query->num_rows()==0){
-
             $sqlv="SELECT *
-                  FROM t_trn_sm
-                  WHERE tahun ='".$data['vtahun']."' AND
-                        kd_jenis_sm ='".$data['vjenissm']."' AND
-                        no_agenda ='".$data['vagenda']."' AND
-                        no_surat ='".$data['vsurat']."' AND
-                        kd_unitorg ='".$data['vunit']."'";
+                    FROM t_trn_sm
+                    WHERE id =".$data['idsm'];
+
             $query = $this->db->query($sqlv);
             $return = $query->result();
             $x = $return[0];
-            $sql ="insert into t_trn_sm (tahun,kd_jenis_sm, lampiran, kd_sifat_sm,no_agenda,tgl_agenda,kd_unitorg, 
+            $id = maxSerial('t_trn_sm', 'id');
+            $sql ="insert into t_trn_sm (id, parent, tahun,kd_jenis_sm, lampiran, kd_sifat_sm,no_agenda,tgl_agenda,kd_unitorg, 
                   no_agendatu,tgl_agendatu,no_surat,tgl_surat,perihal,
             instansi_asal,ditujukan,diteruskan,disposisi,batas_selesai_disp, 
                 keterangan,file_dokumen,kd_status_sm,tgl_posting,kd_sumber,no_terkait, user_posting ) 
-                  VALUES ('".$x->tahun."','".$x->kd_jenis_sm."','".$x->lampiran."',
+                  VALUES (".$id.", ".$data['idsm'].", '".$x->tahun."','".$x->kd_jenis_sm."','".$x->lampiran."',
                   '".$x->kd_sifat_sm."','".$x->no_agenda."', '".$x->tgl_agenda."',
                   '".$data['postingsm']."', '".$x->no_agendatu."',
                   '".$x->tgl_agendatu."','".$x->no_surat."','".$x->tgl_surat."',
                   '".$x->perihal."', '".$x->instansi_asal."','".$x->ditujukan."',
-                  '".$x->diteruskan."','".$x->disposisi.$tambah."','".$x->batas_selesai_disp."',
+                  '".$x->diteruskan."','".$data['disposisi']."','".$x->batas_selesai_disp."',
                   '".$x->keterangan."','".$x->file_dokumen."','".$x->kd_status_sm."',NOW(),'02','".$x->no_terkait."', '".$this->session->userdata('UserName')."' )";
 
             if($this->db->query($sql)){
@@ -109,8 +97,17 @@ class Suratmasuk_model extends CI_Model {
                         kd_jenis_sm ='".$data['vjenissm']."' AND
                         no_agenda ='".$data['vagenda']."' AND
                         no_surat ='".$data['vsurat']."'";
-                // exit($sqlUpdate);
                 $this->db->query($sqlUpdate);
+
+                if(isset($data['aksi'])){
+
+                    foreach ($data['aksi'] as $a) {
+                        $sqldet="INSERT INTO t_trn_sm_detail(idsm, kd_aksi)
+                                VALUE(".$id.", '".$a."');";
+                        $this->db->query($sqldet);
+                    }
+                }
+
                 return "success";
             }
             else{
@@ -165,11 +162,7 @@ class Suratmasuk_model extends CI_Model {
                         user_posting = '".$this->session->userdata('UserName')."',
                         tgl_posting = NOW(),
                         status='1'
-             WHERE tahun='".$data['vtahun']."' AND 
-                    kd_jenis_sm='".$data['vjenissm']."' AND 
-                    no_agenda='".$data['vagenda']."' AND 
-                    kd_unitorg='".$data['vunit']."' AND 
-                    no_surat='".$data['vsurat']."' ";
+             WHERE id=".$data['idsm']."";
         if($this->db->query($sqlupdate)){
             return "success";
         }
@@ -177,7 +170,18 @@ class Suratmasuk_model extends CI_Model {
             return "fail";
         }
     }
+    public function hapusposting($id){
+        $sql = "DELETE FROM t_trn_sm WHERE id =".$id;
+        if($this->db->query($sql)){
+            $sqld = "DELETE FROM t_trn_sm_detail WHERE idsm =".$id;
+            $this->db->query($sqld);
+            return "success";
+        }
+        else{
+            return "error";
+        }
 
+    }
     public function listall($cond, $a=0, $b=LIMITPAGING)
     {
         $sql = "SELECT *, (SELECT count(*) FROM t_trn_sm
@@ -212,11 +216,7 @@ class Suratmasuk_model extends CI_Model {
     {
         $sql="SELECT *
               FROM t_trn_sm
-              WHERE tahun ='".$d['tahun']."' AND
-                    kd_jenis_sm ='".$d['jenis']."' AND
-                    no_agenda ='".$d['agenda']."' AND
-                    no_surat ='".$d['surat']."' AND
-                    kd_unitorg ='".$d['unit']."'";
+              WHERE id =".$d['id'];
         $query = $this->db->query($sql);
         $return = $query->result();
         if(!empty($return[0]))
@@ -228,11 +228,7 @@ class Suratmasuk_model extends CI_Model {
     {
         $sql="SELECT a.*, b.uraian_unit
               FROM t_trn_sm a, t_par_unitorg b
-              WHERE tahun ='".$d['tahun']."' AND
-                    no_agenda ='".$d['agenda']."' AND
-                    no_surat ='".$d['surat']."' AND
-                    kd_jenis_sm ='".$d['jenis']."' AND
-                    kd_sumber ='02' AND a.kd_unitorg = b.kd_unitorg";
+              WHERE a.kd_unitorg=b.kd_unitorg AND a.parent =".$d['id'];
 
         $query = $this->db->query($sql);
         $return = $query->result();
