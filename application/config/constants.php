@@ -67,6 +67,7 @@ define('NAMEDB','badiklat');
 // define('USERDB','root');
 // define('PASSDB','rahasia');
 // define('NAMEDB','badiklat');
+// SETTING DB START
 /*SETTING DB END*/
 
 /*SETTING EMAIL START*/
