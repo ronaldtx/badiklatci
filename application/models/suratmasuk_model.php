@@ -170,11 +170,29 @@ class Suratmasuk_model extends CI_Model {
             return "fail";
         }
     }
-    public function hapusposting($id){
+    public function hapusposting($id, $parent){
+        $sqlc1 = "SELECT * FROM t_trn_sm WHERE id = ".$id;
+        $queryc1 = $this->db->query($sqlc1);
+        foreach($queryc1->result() as $x){
+            $noagenda = $x->no_agenda;
+            $tahun = $x->tahun;
+        }
+
+
         $sql = "DELETE FROM t_trn_sm WHERE id =".$id;
         if($this->db->query($sql)){
             $sqld = "DELETE FROM t_trn_sm_detail WHERE idsm =".$id;
             $this->db->query($sqld);
+            
+            $sqlc2 = "SELECT * FROM t_trn_sm WHERE no_agenda = '".$noagenda."'";
+            $queryc2 = $this->db->query($sqlc2);
+            if($queryc2->num_rows()==1){
+                $sqlU = "UPDATE t_trn_sm
+                        SET kd_status_sm='01'
+                        WHERE no_agenda = '".$noagenda."' AND tahun = '".$tahun."'";
+                $this->db->query($sqlU);
+
+            }
             return "success";
         }
         else{

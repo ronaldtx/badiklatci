@@ -234,7 +234,7 @@ class Suratmasuk extends CI_Controller {
     public function hapusposting(){
         $link = "?id=".$_GET['parent'];
         // exit;
-        if($this->suratmasuk_model->hapusposting($_GET['id'])=='success'){
+        if($this->suratmasuk_model->hapusposting($_GET['id'], $_GET['parent'])=='success'){
             redirect(base_url()."surat/suratmasuk/edit".$link, 'location');
         }
         else{

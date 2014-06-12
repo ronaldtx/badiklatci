@@ -52,6 +52,7 @@ define('HOSTDB','localhost');
 define('USERDB','root');
 define('PASSDB','gakpake');
 define('NAMEDB','badiklat');
+
 */
 
 
