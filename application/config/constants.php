@@ -39,7 +39,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 /*
     VARIABEL TAMBAHAN
 */
-/*
+
 define('TITLEAPP', 'BADIKLAT');
 define('BREADCRUMBDEF', '');
 define('FILEFOLDER', 'folderupload');
@@ -53,21 +53,20 @@ define('USERDB','root');
 define('PASSDB','gakpake');
 define('NAMEDB','badiklat');
 
-*/
 
+// define('TITLEAPP', 'BADIKLAT');
+// define('BREADCRUMBDEF', '');
+// define('FILEFOLDER', 'folderupload');
+// define('UPLOADPATH', '/home/ronald/public_html/badiklatci/folderupload');
+// define('LIMITPAGING', 20);
+// define('BASEURL', 'http://localhost/badiklatci/');
 
-define('TITLEAPP', 'BADIKLAT');
-define('BREADCRUMBDEF', '');
-define('FILEFOLDER', 'folderupload');
-define('UPLOADPATH', '/home/ronald/public_html/badiklatci/folderupload');
-define('LIMITPAGING', 20);
-define('BASEURL', 'http://localhost/badiklatci/');
-
+// // SETTING DB START
+// define('HOSTDB','localhost');
+// define('USERDB','root');
+// define('PASSDB','rahasia');
+// define('NAMEDB','badiklat');
 // SETTING DB START
-define('HOSTDB','localhost');
-define('USERDB','root');
-define('PASSDB','rahasia');
-define('NAMEDB','tpdk');
 /*SETTING DB END*/
 
 /*SETTING EMAIL START*/
