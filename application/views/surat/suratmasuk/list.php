@@ -19,6 +19,22 @@ else
         </div>
     </div>
     <div class="control-group">
+        <label class="control-label" for="jenissm">Jenis Surat Masuk</label>
+        <div class="controls">
+            <select id="jenissm" name="jenissm" data-placeholder="Pilih Jenis Surat Masuk...">
+                <option value=""></option>
+                <?php 
+                    foreach ($listjenis as $d) {
+                        echo '<option value="'.$d->kd_jenis_sm.'"';
+                        if($d->kd_jenis_sm == $jenissm)
+                            echo ' selected';
+                        echo '>'.$d->uraian_jenis_sm.'</option>';
+                    }
+                 ?>
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
         <label class="control-label" for="tglagenda">Tanggal Surat</label>
 
         <div class="controls">

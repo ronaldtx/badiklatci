@@ -27,16 +27,29 @@ class Suratkeluar extends CI_Controller {
     {
         if($this->session->userdata('UserName')){
             if(!empty($_POST)){
+                $data['jenissk'] = $_POST['jenissk'];
                 $data['page'] = $_POST['vpage'];
                 $data['cari'] = $_POST['cari'];
                 $data['tgl1'] = $_POST['tgl1'];
                 $data['tgl2'] = $_POST['tgl2'];
+
                 $pencarian = " AND (no_terkait LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR no_surat_keluar LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR konseptor LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR no_kirim LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR nomor LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR ditujukan LIKE '%".$data['cari']."%')";
+                
+                if(strlen($data['jenissk'])>0){
+                    $pecahan = strtok($data['jenissk'],"-");
+                    $kd_sd = $pecahan;
+                    $pecahan=strtok("-");
+                    $kd_sk = $pecahan;
+                    $pecahan=strtok("-");
+
+                    $pencarian .= " AND kd_jenis_sd ='".$kd_sd."' AND kd_jenis_sk = '".$kd_sk."'";
+                }
+
                 if(mysqltgl($data['tgl1'])!="--" || mysqltgl($data['tgl2'])!="--")
                     $cond = "AND tgl_surat_keluar BETWEEN '".mysqltgl($data['tgl1'])."' AND '".mysqltgl($data['tgl2'])."'";
                 else
@@ -45,6 +58,7 @@ class Suratkeluar extends CI_Controller {
             } 
             else{
                 $data['page'] = 1;
+                $data['jenissk'] = '';
                 $data['cari'] = '';
                 $data['tgl1'] = '';
                 $data['tgl2'] = '';
@@ -84,14 +98,16 @@ class Suratkeluar extends CI_Controller {
                       }
                     });
                     $("#btnexport").click(function(){
-                        window.open("'.base_url().'export/esuratkeluar?cari='.$data["cari"].'&tgl1='.$data["tgl1"].'&tgl2='.$data["tgl2"].'");
+                        window.open("'.base_url().'export/esuratkeluar?jenissk='.$data['jenissk'].'&cari='.$data["cari"].'&tgl1='.$data["tgl1"].'&tgl2='.$data["tgl2"].'");
                     });
                     $(".date-picker").datepicker().next().on(ace.click_event, function(){
                       $(this).prev().focus();
                     });
                 });
                 </script>';
+            $order = "ORDER BY kd_jenis_sd, kd_jenis_sk";
             $data['listsurat'] = $this->suratkeluar_model->listall($cond, $data['page']);
+            $data['listjenis'] = listall('t_par_jenis_sk', $order);
             $this->load->view('surat/suratkeluar/list', $data);
         }
         else{

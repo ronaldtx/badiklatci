@@ -98,6 +98,7 @@ class Export extends CI_Controller {
     }
     public function esuratmasuk(){
         if(!empty($_GET)){
+            $data['jenissm'] = $_GET['jenissm'];
             $data['cari'] = $_GET['cari'];
             $data['tgl1'] = $_GET['tgl1'];
             $data['tgl2'] = $_GET['tgl2'];
@@ -107,6 +108,10 @@ class Export extends CI_Controller {
             $pencarian .= " OR perihal LIKE '%".$data['cari']."%'";
             $pencarian .= " OR ditujukan LIKE '%".$data['cari']."%'";
             $pencarian .= " OR disposisi LIKE '%".$data['cari']."%')";
+
+            if(strlen($data['jenissm'])>0)
+                $pencarian .=" AND kd_jenis_sm = '".$data['jenissm']."'";
+
             if(mysqltgl($data['tgl1'])!="--" || mysqltgl($data['tgl2'])!="--")
                 $cond = "AND tgl_surat BETWEEN '".mysqltgl($data['tgl1'])."' AND '".mysqltgl($data['tgl2'])."'";
             else
@@ -164,6 +169,7 @@ class Export extends CI_Controller {
     public function esuratkeluar(){
         if(!empty($_GET)){
             $data['cari'] = $_GET['cari'];
+            $data['jenissk'] = $_GET['jenissk'];
             $data['tgl1'] = $_GET['tgl1'];
             $data['tgl2'] = $_GET['tgl2'];
             $pencarian = " AND (no_terkait LIKE '%".$data['cari']."%'";
@@ -172,6 +178,16 @@ class Export extends CI_Controller {
             $pencarian .= " OR no_kirim LIKE '%".$data['cari']."%'";
             $pencarian .= " OR nomor LIKE '%".$data['cari']."%'";
             $pencarian .= " OR ditujukan LIKE '%".$data['cari']."%')";
+            if(strlen($data['jenissk'])>0){
+                $pecahan = strtok($data['jenissk'],"-");
+                $kd_sd = $pecahan;
+                $pecahan=strtok("-");
+                $kd_sk = $pecahan;
+                $pecahan=strtok("-");
+
+                $pencarian .= " AND kd_jenis_sd ='".$kd_sd."' AND kd_jenis_sk = '".$kd_sk."'";
+            }
+
             if(mysqltgl($data['tgl1'])!="--" || mysqltgl($data['tgl2'])!="--")
                 $cond = "AND tgl_surat_keluar BETWEEN '".mysqltgl($data['tgl1'])."' AND '".mysqltgl($data['tgl2'])."'";
             else

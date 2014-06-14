@@ -32,19 +32,28 @@ class Suratmasuk extends CI_Controller {
                 $data['cari'] = $_POST['cari'];
                 $data['tgl1'] = $_POST['tgl1'];
                 $data['tgl2'] = $_POST['tgl2'];
+                $data['jenissm'] = $_POST['jenissm'];
                 $pencarian = " AND (no_agenda LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR no_surat LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR instansi_asal LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR perihal LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR ditujukan LIKE '%".$data['cari']."%'";
                 $pencarian .= " OR disposisi LIKE '%".$data['cari']."%')";
+
+                if(strlen($data['jenissm'])>0)
+                    $pencarian .=" AND kd_jenis_sm = '".$data['jenissm']."'";
+
                 if(mysqltgl($data['tgl1'])!="--" || mysqltgl($data['tgl2'])!="--")
                     $cond = "AND tgl_surat BETWEEN '".mysqltgl($data['tgl1'])."' AND '".mysqltgl($data['tgl2'])."'";
                 else
-                    $cond ="";$cond .=$pencarian;
+                    $cond ="";
+
+                $cond .=$pencarian;
             } 
             else{
                 $data['page'] = 1;
+                $data['cari'] = '';
+                $data['jenissm'] = '';
                 $data['cari'] = '';
                 $data['tgl1'] = '';
                 $data['tgl2'] = '';
@@ -57,7 +66,7 @@ class Suratmasuk extends CI_Controller {
             $data['jsfooter'] = '<script type="text/javascript">
                 $(function() {
                     $("#btnexport").click(function(){
-                        window.open("'.base_url().'export/esuratmasuk?cari='.$data["cari"].'&tgl1='.$data["tgl1"].'&tgl2='.$data["tgl2"].'");
+                        window.open("'.base_url().'export/esuratmasuk?jenissm='.$data["jenissm"].'&cari='.$data["cari"].'&tgl1='.$data["tgl1"].'&tgl2='.$data["tgl2"].'");
                     });
                     $("#btnnext").click(function(){
                         var newpage = parseInt($("#vpage").val())+1;
@@ -91,6 +100,12 @@ class Suratmasuk extends CI_Controller {
                     });
                 });
                 </script>';
+            if ($this->session->userdata('UnitOrg') == "0000")
+                $condx = "where kd_jenis_sm NOT IN ('40', '50')";
+            else
+                $condx = "where kd_jenis_sm IN ('40', '50')";
+
+            $data['listjenis'] = listall('t_par_jenis_sm', $condx);
             $data['listsurat'] = $this->suratmasuk_model->listall($cond, $data['page']);
             // print_r($data['listsurat']);
             // exit;
