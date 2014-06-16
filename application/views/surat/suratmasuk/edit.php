@@ -244,6 +244,12 @@ $this->load->view('header');
     } ?>
     </div>
 </div>
+<div class="control-group">
+    <label class="control-label" for="disposisichild">Disposisi Surat Masuk</label>
+    <div class="controls">
+            <textarea name="disposisichild" id="disposisichild"/><?php echo $surat->disposisi; ?></textarea>
+    </div>
+</div>
 </form>
 <div class="row-fluid">
     <div class="table-header">

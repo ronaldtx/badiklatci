@@ -87,7 +87,7 @@ class Suratmasuk_model extends CI_Model {
                   '".$data['postingsm']."', '".$x->no_agendatu."',
                   '".$x->tgl_agendatu."','".$x->no_surat."','".$x->tgl_surat."',
                   '".$x->perihal."', '".$x->instansi_asal."','".$x->ditujukan."',
-                  '".$x->diteruskan."','".$data['disposisi']."','".$x->batas_selesai_disp."',
+                  '".$x->diteruskan."','".$data['disposisichild']."','".$x->batas_selesai_disp."',
                   '".$x->keterangan."','".$x->file_dokumen."','".$x->kd_status_sm."',NOW(),'02','".$x->no_terkait."', '".$this->session->userdata('UserName')."' )";
 
             if($this->db->query($sql)){
