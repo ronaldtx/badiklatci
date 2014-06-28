@@ -198,7 +198,11 @@ $this->load->view('header');
         <span class="lbl" style="color:red;"><?php echo $errmsg; ?></span>
     </label>
     <?php } ?>
+ 
     <div class="form-actions">
+    <?php 
+    if($surat->parent == 0){
+    ?>
         <button class="btn btn-info" type="submit">
             <i class="icon-ok bigger-110"></i>
             Submit
@@ -209,9 +213,9 @@ $this->load->view('header');
             <i class="icon-undo bigger-110"></i>
             Reset
         </button>
+    <?php } ?>
     </div>
-
-<hr>
+<hr style="height:3px;border:none;color:#333;background-color:#333;">
 <div class="control-group">
     <label class="control-label" for="postingsm">Posting Surat Masuk</label>
     <div class="controls">
