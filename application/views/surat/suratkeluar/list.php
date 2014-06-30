@@ -100,8 +100,7 @@ else
                 <th>Kepada</th>
                 <th>No. Kirim</th>
                 <th>Tgl. Kirim</th>
-                <th>Hal</th>
-                <th>Isi</th>
+                <th>Perihal</th>
                 <th>Tujuan</th>
                 <th>Tembusan</th>
                 <th>Detail</th>
@@ -124,7 +123,6 @@ else
                     <td><?php echo $v->ditujukan ?></td>
                     <td><?php echo $v->no_kirim ?></td>
                     <td><?php echo displaytgl($v->tgl_kirim) ?></td>
-                    <td><?php echo $v->tentang ?></td>
                     <td><?php echo $v->isi_suratkeluar ?></td>
                     <td><?php echo $v->ditujukan ?></td>
                     <td><?php echo $v->tembusan ?></td>
