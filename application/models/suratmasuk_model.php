@@ -160,9 +160,9 @@ class Suratmasuk_model extends CI_Model {
                         file_dokumen='".$filename."',
                         no_terkait='".$data['noterkait']."',
                         user_posting = '".$this->session->userdata('UserName')."',
-                        tgl_posting = NOW(),
                         status='1'
-             WHERE id=".$data['idsm']."";
+             WHERE no_agenda='".$data['vagenda']."'";
+        // exit($sqlupdate);
         if($this->db->query($sqlupdate)){
             return "success";
         }

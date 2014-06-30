@@ -100,6 +100,7 @@ else
                 <th>Kepada</th>
                 <th>Status</th>
                 <th>Disposisi</th>
+                <th>Tgl. Disposisi</th>
                 <th>Selama</th>
                 <th>Detail</th>
             </tr>
@@ -124,6 +125,7 @@ else
                     <td><?php echo $v->ditujukan ?></td>
                     <td><?php echo getStatusSM($v->kd_status_sm) ?></td>
                     <td><?php echo $v->disposisi ?></td>
+                    <td><?php echo displaytgl($v->tgl_posting) ?></td>
                     <td><?php echo $v->batas_selesai_disp ?></td>
                     <td class="td-actions">
                         <div class="hidden-phone visible-desktop action-buttons">
