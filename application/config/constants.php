@@ -40,33 +40,18 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
     VARIABEL TAMBAHAN
 */
 
-// define('TITLEAPP', 'BADIKLAT');
-// define('BREADCRUMBDEF', '');
-// define('FILEFOLDER', 'folderupload');
-// define('UPLOADPATH', 'D:\\xampp\\htdocs\\badiklatci\\folderupload\\');
-// define('LIMITPAGING', 20);
-// define('BASEURL', 'http://localhost:8080/badiklatci/');
-
-// // SETTING DB START
-// define('HOSTDB','localhost');
-// define('USERDB','root');
-// define('PASSDB','gakpake');
-// define('NAMEDB','badiklat');
-
-
 define('TITLEAPP', 'BADIKLAT');
 define('BREADCRUMBDEF', '');
 define('FILEFOLDER', 'folderupload');
-define('UPLOADPATH', '/home/ronald/public_html/badiklatci/folderupload');
+define('UPLOADPATH', 'D:\\xampp\\htdocs\\badiklatci\\folderupload\\');
 define('LIMITPAGING', 20);
-define('BASEURL', 'http://localhost/badiklatci/');
+define('BASEURL', 'http://localhost:8080/badiklatci/');
 
-// SETTING DB START
+/*SETTING DB START*/
 define('HOSTDB','localhost');
 define('USERDB','root');
-define('PASSDB','rahasia');
-define('NAMEDB','tpdk');
-// SETTING DB START
+define('PASSDB','gakpake');
+define('NAMEDB','badiklat');
 /*SETTING DB END*/
 
 /*SETTING EMAIL START*/
@@ -82,3 +67,4 @@ define('PASSEMAIL', 'password');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
+
