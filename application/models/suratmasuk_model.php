@@ -215,6 +215,17 @@ class Suratmasuk_model extends CI_Model {
         $query = $this->db->query($sql);
         return $query->result();
     }
+    public function listtracking($cond, $a=0, $b=LIMITPAGING)
+    {
+        $sql = "SELECT *
+                FROM t_trn_sm 
+                WHERE
+                ".$cond."
+                ORDER BY parent";
+        // exit($sql);
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
     public function listallexport($cond)
     {
         $sql = "SELECT * 

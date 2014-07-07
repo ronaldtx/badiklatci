@@ -117,6 +117,71 @@ class Suratmasuk extends CI_Controller {
         }
         
     }
+    public function tracking()
+    {
+        if($this->session->userdata('UserName')){
+            $cond = "md5(no_agenda) = '".$_GET['kode']."'";
+            $data['breadcrumb'] = '<span class="divider">
+                    <i class="icon-angle-right arrow-icon"></i>
+                  </span>
+                <li class="active"><a href="'.base_url().'surat/suratmasuk">Surat Masuk</a></li>
+                <i class="icon-angle-right arrow-icon"></i>
+                  </span>
+                <li class="active">Tracking</li>';
+            $data['jsfooter'] = '<script type="text/javascript">
+                $(function() {
+                    $("#btnexport").click(function(){
+                        window.open("'.base_url().'export/esuratmasuk?jenissm='.$data["jenissm"].'&cari='.$data["cari"].'&tgl1='.$data["tgl1"].'&tgl2='.$data["tgl2"].'");
+                    });
+                    $("#btnnext").click(function(){
+                        var newpage = parseInt($("#vpage").val())+1;
+                        if(parseInt($("#maxpage").val())>=newpage)
+                            $("#vpage").val(newpage);
+                        else
+                            $("#vpage").val($("#vpage").val());
+                        $("#formlist").submit();
+                    });
+                    $("#btnprev").click(function(){
+                        var newpage = parseInt($("#vpage").val())-1;
+                        if(newpage>0)
+                            $("#vpage").val(newpage);
+                        else
+                            $("#vpage").val($("#vpage").val());
+                        $("#formlist").submit();
+                    });
+                    $("#pageindex").keypress(function (e) {
+                      if (e.which == 13) {
+                        var newpage = parseInt($("#pageindex").val());
+                        if(newpage>0 && parseInt($("#maxpage").val())>=newpage)
+                            $("#vpage").val(newpage);
+                        else
+                            $("#vpage").val($("#vpage").val());
+                        $("#formlist").submit();
+                        return false;
+                      }
+                    });
+                    $(".date-picker").datepicker().next().on(ace.click_event, function(){
+                      $(this).prev().focus();
+                    });
+                });
+                </script>';
+            // if ($this->session->userdata('UnitOrg') == "0000")
+            //     $condx = "where kd_jenis_sm NOT IN ('40', '50')";
+            // else
+            //     $condx = "where kd_jenis_sm IN ('40', '50')";
+
+            // $data['listjenis'] = listall('t_par_jenis_sm', $condx);
+            $data['listsurat'] = $this->suratmasuk_model->listtracking($cond);
+            // print_r($data['listsurat']);
+            // exit;
+            // exit($data['listsurat']->)
+            $this->load->view('surat/suratmasuk/tracking', $data);
+        }
+        else{
+            redirect(base_url(), 'location');
+        }
+        
+    }
     public function create(){
         if($this->session->userdata('UserName')){
             if(isset($_GET['a']))

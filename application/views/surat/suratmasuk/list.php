@@ -109,6 +109,7 @@ else
         <tbody>
             <?php foreach ($listsurat as $v) { 
                 $link = "?id=".$v->id;
+                $link2 = "?kode=".md5($v->no_agenda);
                 if(date("U", strtotime($v->tgl_agenda. " +".$v->batas_selesai_disp." days")) < date("U"))
                     $class = ' class="merah"';
                 else
@@ -132,6 +133,12 @@ else
                             
                             <a class="green" href="<?php echo base_url(); ?>surat/suratmasuk/edit<?php echo $link;?>">
                                 <i class="icon-edit bigger-130"></i>
+                            </a>
+                        </div>
+                        <div class="hidden-phone visible-desktop action-buttons">
+                            
+                            <a class="green" href="<?php echo base_url(); ?>surat/suratmasuk/tracking<?php echo $link2;?>">
+                                <i class="icon-filter bigger-130"></i>
                             </a>
                         </div>
                     </td>
